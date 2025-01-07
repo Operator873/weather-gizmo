@@ -48,6 +48,8 @@ def main(config):
         record=generate_influx_point(fetch_data(api)),
     )
 
+    client.close()
+
 
 if __name__ == "__main__":
     config = configparser.ConfigParser()
