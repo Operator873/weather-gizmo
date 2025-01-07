@@ -38,21 +38,24 @@ def generate_influx_point(data):
 
 
 def main(config):
-    client = influxdb_client.InfluxDBClient(
-        url=config["Influx"]["server"],
-        token=config["Influx"]["token"],
-        org=config["Influx"]["org"],
-    )
+    while True:
+        client = influxdb_client.InfluxDBClient(
+            url=config["Influx"]["server"],
+            token=config["Influx"]["token"],
+            org=config["Influx"]["org"],
+        )
 
-    influx = client.write_api(write_options=SYNCHRONOUS)
+        influx = client.write_api(write_options=SYNCHRONOUS)
 
-    influx.write(
-        bucket=config["Influx"]["bucket"],
-        org=config["Influx"]["org"],
-        record=generate_influx_point(fetch_data(config)),
-    )
+        influx.write(
+            bucket=config["Influx"]["bucket"],
+            org=config["Influx"]["org"],
+            record=generate_influx_point(fetch_data(config)),
+        )
 
-    client.close()
+        client.close()
+
+        time.sleep(300)
 
 
 if __name__ == "__main__":
