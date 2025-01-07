@@ -27,10 +27,12 @@ def generate_influx_point(data):
     point = influxdb_client.Point("weather").tag("location", "Home")
 
     for key, value in data.items():
-        if key != "date":
+        if key == "date":
+            point.time(data["date"])
+        elif key == "dewPoint":
+            point.field(key, float(value))
+        else:
             point.field(key, value)
-
-    point.time(data["date"])
 
     return point
 
