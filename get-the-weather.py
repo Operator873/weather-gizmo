@@ -7,7 +7,13 @@ import influxdb_client
 from ambient_api.ambientapi import AmbientAPI
 from influxdb_client.client.write_api import SYNCHRONOUS
 
-def fetch_data(api):
+def fetch_data(config):
+    api = AmbientAPI(
+        AMBIENT_ENDPOINT="https://rt.ambientweather.net/v1",
+        AMBIENT_API_KEY=config["Keys"]["api"],
+        AMBIENT_APPLICATION_KEY=config["Keys"]["app_key"],
+    )
+
     devices = api.get_devices()
     device = devices[0]  # Written to allow future expansion
 
@@ -30,12 +36,6 @@ def generate_influx_point(data):
 
 
 def main(config):
-    api = AmbientAPI(
-        AMBIENT_ENDPOINT="https://rt.ambientweather.net/v1",
-        AMBIENT_API_KEY=config["Keys"]["api"],
-        AMBIENT_APPLICATION_KEY=config["Keys"]["app_key"],
-    )
-
     client = influxdb_client.InfluxDBClient(
         url=config["Influx"]["server"],
         token=config["Influx"]["token"],
@@ -47,7 +47,7 @@ def main(config):
     influx.write(
         bucket=config["Influx"]["bucket"],
         org=config["Influx"]["org"],
-        record=generate_influx_point(fetch_data(api)),
+        record=generate_influx_point(fetch_data(config)),
     )
 
     client.close()
