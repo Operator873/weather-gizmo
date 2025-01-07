@@ -29,7 +29,7 @@ def generate_influx_point(data):
     for key, value in data.items():
         if key == "date":
             point.time(data["date"])
-        elif key == "dewPoint":
+        elif isinstance(value, int):
             point.field(key, float(value))
         else:
             point.field(key, value)
