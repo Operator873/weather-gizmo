@@ -12,7 +12,7 @@ def fetch_data(config):
         AMBIENT_ENDPOINT="https://rt.ambientweather.net/v1",
         AMBIENT_API_KEY=config["Keys"]["api"],
         AMBIENT_APPLICATION_KEY=config["Keys"]["app_key"],
-        log_level="debug",
+        log_level="info",
         log_file="ambient.log"
     )
 
