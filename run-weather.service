@@ -1,0 +1,16 @@
+[Unit]
+Description=Weather873 Data Collection Service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=hades
+Group=hades
+ExecStart=/usr/bin/python3 /path/to/run-weather.py
+WorkingDirectory=/path/to/weather-api
+Restart=on-failure
+RestartSec=10  # Restart after 10 seconds if it fails
+
+[Install]
+WantedBy=multi-user.target
