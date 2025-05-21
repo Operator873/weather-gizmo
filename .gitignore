@@ -171,5 +171,5 @@ cython_debug/
 .pypirc
 
 # Configuration items
-settings.conf
 ambient.log
+settings.conf
